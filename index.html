@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Thời khóa biểu K66–K68 — Kỳ 1, 2026–2027</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --paper:#F2EFE4;
+  --paper-raised:#FBFAF5;
+  --ink:#20241F;
+  --ink-soft:#5B5F53;
+  --rule:#D8D2BF;
+  --rule-strong:#B9B29A;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'IBM Plex Sans',sans-serif;
+  padding:28px 16px 56px;
+  min-height:100vh;
+  font-size:15px;
+}
+.wrap{max-width:1140px;margin:0 auto;}
+
+/* ---------- Header ---------- */
+header{
+  border-bottom:1px solid var(--rule-strong);
+  padding-bottom:20px;
+  margin-bottom:20px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:16px;
+}
+h1{
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-optical-sizing:auto;
+  font-size:clamp(24px,5vw,38px);
+  line-height:1.1;
+  margin:0 0 6px;
+  letter-spacing:-0.01em;
+}
+header p{
+  margin:0;
+  color:var(--ink-soft);
+  font-size:14px;
+}
+.stat-strip{
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap;
+}
+.stat{text-align:right;}
+.stat b{
+  display:block;
+  font-family:'Fraunces',serif;
+  font-size:23px;
+  font-weight:600;
+  line-height:1;
+}
+.stat span{font-size:11.5px;color:var(--ink-soft);}
+
+/* ---------- Khoa tabs ---------- */
+.khoa-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:10px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:2px;
+}
+.khoa-tab{
+  flex:0 0 auto;
+  border:1.5px solid var(--rule-strong);
+  background:var(--paper-raised);
+  border-radius:12px;
+  padding:12px 18px;
+  min-height:44px;
+  cursor:pointer;
+  font-family:'Fraunces',serif;
+  font-weight:600;
+  font-size:16px;
+  color:var(--ink-soft);
+  display:flex;
+  align-items:center;
+  gap:8px;
+  white-space:nowrap;
+  transition:background .15s ease,color .15s ease;
+}
+.khoa-tab .yr{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;
+  font-weight:500;
+  color:inherit;
+  opacity:.7;
+}
+.khoa-tab.active{background:var(--ink);color:var(--paper-raised);border-color:var(--ink);}
+.khoa-summary{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  font-family:'IBM Plex Mono',monospace;
+  margin-bottom:18px;
+}
+
+/* ---------- View toggle ---------- */
+.view-toggle{
+  display:inline-flex;
+  border:1px solid var(--rule-strong);
+  border-radius:999px;
+  padding:3px;
+  margin-bottom:18px;
+  background:var(--paper-raised);
+}
+.view-toggle button{
+  border:none;
+  background:transparent;
+  padding:10px 16px;
+  min-height:40px;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:13.5px;
+  font-weight:500;
+  color:var(--ink-soft);
+  border-radius:999px;
+  cursor:pointer;
+  transition:background .15s ease, color .15s ease;
+}
+.view-toggle button.active{background:var(--ink);color:var(--paper-raised);}
+
+/* ---------- Class picker ---------- */
+.picker{display:flex;flex-wrap:wrap;gap:18px;margin-bottom:22px;}
+.picker-group{flex:1 1 260px;min-width:230px;}
+.picker-group h2{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:0.02em;
+  color:var(--ink-soft);
+  margin:0 0 8px;
+}
+.pills{display:flex;flex-wrap:wrap;gap:8px;}
+.pill{
+  border:1.5px solid var(--rule-strong);
+  background:var(--paper-raised);
+  border-radius:10px;
+  padding:10px 14px;
+  min-height:44px;
+  cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:13.5px;
+  color:var(--ink);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:2px;
+  min-width:126px;
+  flex:1 1 126px;
+  transition:transform .12s ease;
+}
+.pill:active{transform:scale(.98);}
+.pill b{font-family:'Fraunces',serif;font-size:15px;font-weight:600;}
+.pill .n{font-size:11px;color:var(--ink-soft);line-height:1.3;}
+.pill.active{box-shadow:inset 0 0 0 2px currentColor;}
+
+/* ---------- GV picker ---------- */
+.gv-picker{margin-bottom:22px;}
+.gv-search{
+  position:relative;
+  margin-bottom:12px;
+}
+.gv-search input{
+  width:100%;
+  border:1.5px solid var(--rule-strong);
+  background:var(--paper-raised);
+  border-radius:10px;
+  padding:12px 14px;
+  min-height:46px;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:15px;
+  color:var(--ink);
+}
+.gv-search input:focus{outline:2px solid var(--ink);outline-offset:1px;}
+.gv-hint{font-size:11.5px;color:var(--ink-soft);margin:6px 2px 0;font-family:'IBM Plex Mono',monospace;}
+.gv-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.gv-pill{
+  border:1.5px solid var(--rule-strong);
+  background:var(--paper-raised);
+  border-radius:999px;
+  padding:9px 15px;
+  min-height:40px;
+  display:flex;
+  align-items:center;
+  cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:13px;
+  color:var(--ink);
+}
+.gv-pill .cnt{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10.5px;
+  color:var(--ink-soft);
+  margin-left:6px;
+}
+.gv-pill.active{background:var(--ink);color:var(--paper-raised);border-color:var(--ink);}
+.gv-pill.active .cnt{color:var(--paper-raised);opacity:.75;}
+.conflict-banner{
+  border:1.5px solid #B23A2E;
+  background:#F6E4E1;
+  color:#7A2A20;
+  border-radius:10px;
+  padding:10px 14px;
+  font-size:12.5px;
+  margin-bottom:14px;
+}
+
+/* ---------- GDTC / non-grid sessions ---------- */
+.gdtc-card{margin-top:0;}
+.gdtc-card h3{
+  font-family:'Fraunces',serif;
+  font-size:18px;
+  font-weight:600;
+  margin:0 0 4px;
+}
+.gdtc-card .gdtc-note{font-size:12px;color:var(--ink-soft);margin-bottom:12px;}
+.gdtc-rows{display:flex;flex-direction:column;gap:8px;}
+.gdtc-row{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2px;
+  border:1px solid var(--rule);
+  border-left:3px solid var(--c);
+  border-radius:8px;
+  padding:10px 12px;
+  background:var(--bg);
+}
+.gdtc-row .top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+.gdtc-row .ten{font-family:'Fraunces',serif;font-weight:600;font-size:14.5px;}
+.gdtc-row .lop-tag{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--c);font-weight:500;}
+.gdtc-row .details{font-size:12px;color:var(--ink-soft);}
+.gdtc-row .details b{color:var(--ink);font-weight:500;}
+.gdtc-row .contact{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);margin-top:2px;}
+
+/* ---------- Timetable grid ---------- */
+.tt-card{
+  background:var(--paper-raised);
+  border:1px solid var(--rule);
+  border-radius:14px;
+  padding:18px;
+  margin-bottom:22px;
+}
+.tt-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:14px;
+}
+.tt-head h3{
+  font-family:'Fraunces',serif;
+  font-size:20px;
+  font-weight:600;
+  margin:0;
+}
+.tt-head .meta{
+  font-size:12.5px;
+  color:var(--ink-soft);
+  font-family:'IBM Plex Mono',monospace;
+}
+
+.grid-scroll{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  border-top:1px solid var(--rule-strong);
+  border-left:1px solid var(--rule-strong);
+  border-radius:6px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:84px repeat(6,minmax(122px,1fr));
+  min-width:640px;
+}
+.grid .hcell{
+  background:var(--paper);
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11.5px;
+  font-weight:500;
+  padding:9px 6px;
+  text-align:center;
+  border-right:1px solid var(--rule-strong);
+  border-bottom:1px solid var(--rule-strong);
+  color:var(--ink-soft);
+}
+.grid .corner{
+  background:var(--paper-raised);
+  position:sticky;
+  left:0;
+  z-index:3;
+}
+.grid .period-cell{
+  background:var(--paper);
+  font-size:12px;
+  color:var(--ink-soft);
+  padding:8px 6px;
+  border-right:1px solid var(--rule-strong);
+  border-bottom:1px solid var(--rule-strong);
+  display:flex;
+  align-items:center;
+  position:sticky;
+  left:0;
+  z-index:2;
+}
+.grid .section-tag{
+  font-size:9.5px;
+  color:var(--ink-soft);
+  display:block;
+  opacity:.75;
+}
+.grid .slot{
+  min-height:62px;
+  border-right:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding:5px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+
+.chip{
+  border-radius:8px;
+  padding:6px 8px;
+  font-size:11.5px;
+  line-height:1.35;
+  border-left:3px solid var(--c);
+  background:var(--bg);
+}
+.chip b{display:block;font-size:12px;font-weight:600;color:var(--ink);}
+.chip .sub{color:var(--ink-soft);font-family:'IBM Plex Mono',monospace;font-size:10.5px;margin-top:1px;}
+.chip .lop-tag{font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--c);font-weight:500;}
+.chip .ghep{font-size:9.5px;color:var(--c);font-weight:500;margin-top:2px;}
+
+/* ---------- Unscheduled note ---------- */
+.unsched{margin-top:12px;font-size:12.5px;color:var(--ink-soft);display:flex;gap:8px;flex-wrap:wrap;}
+.unsched .tag{border:1px solid var(--rule-strong);border-radius:7px;padding:4px 9px;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+
+/* ---------- Subject list ---------- */
+.list-card h3{font-family:'Fraunces',serif;font-size:19px;font-weight:600;margin:0 0 12px;}
+.list-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table.subjects{width:100%;border-collapse:collapse;font-size:12.5px;min-width:680px;}
+table.subjects th{
+  text-align:left;
+  font-family:'IBM Plex Mono',monospace;
+  font-weight:500;
+  font-size:10.5px;
+  letter-spacing:0.02em;
+  color:var(--ink-soft);
+  padding:8px 9px;
+  border-bottom:1.5px solid var(--rule-strong);
+  white-space:nowrap;
+}
+table.subjects td{padding:9px 9px;border-bottom:1px solid var(--rule);vertical-align:top;}
+table.subjects tr:last-child td{border-bottom:none;}
+.code{font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--ink-soft);}
+.credit{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);}
+.ghep-note{font-size:10px;color:var(--ink-soft);display:block;margin-top:2px;}
+
+footer{margin-top:26px;font-size:11.5px;color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:14px;}
+
+@media (max-width:640px){
+  body{padding:20px 12px 48px;font-size:14px;}
+  .tt-card{padding:12px;}
+  header{flex-direction:column;align-items:flex-start;gap:12px;}
+  .stat-strip{gap:16px;width:100%;justify-content:space-between;}
+  .stat{text-align:left;}
+  .stat b{font-size:19px;}
+  .picker-group{min-width:100%;}
+  .gv-search input{font-size:16px;} /* avoid iOS auto-zoom on focus */
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div>
+      <h1>Thời khóa biểu Kỳ 1 — Năm học 2026&ndash;2027</h1>
+      <p>Các khóa 66, 67, 68 · Khoa Khoa học dữ liệu &amp; Trí tuệ nhân tạo</p>
+    </div>
+    <div class="stat-strip" id="statStrip"></div>
+  </header>
+
+  <div class="khoa-tabs" id="khoaTabs"></div>
+  <div class="khoa-summary" id="khoaSummary"></div>
+
+  <div class="view-toggle">
+    <button id="btnByClass" class="active">Theo lớp chuyên ngành</button>
+    <button id="btnAll">Toàn khóa</button>
+    <button id="btnByGV">Theo giảng viên</button>
+  </div>
+
+  <div id="pickerWrap">
+    <div class="picker" id="picker"></div>
+  </div>
+
+  <div id="gvPickerWrap" class="gv-picker" style="display:none">
+    <div class="gv-search">
+      <input type="text" id="gvSearch" list="gvOptions" placeholder="Gõ tên giảng viên để tra cứu…" autocomplete="off">
+      <datalist id="gvOptions"></datalist>
+    </div>
+    <div class="gv-hint">Hoặc chọn nhanh:</div>
+    <div class="gv-pills" id="gvPills"></div>
+  </div>
+
+  <div class="tt-card">
+    <div class="tt-head">
+      <h3 id="ttTitle"></h3>
+      <span class="meta" id="ttMeta"></span>
+    </div>
+    <div id="conflictBanner"></div>
+    <div class="grid-scroll"><div class="grid" id="grid"></div></div>
+    <div class="unsched" id="unsched"></div>
+  </div>
+
+  <div class="tt-card gdtc-card" id="gdtcCard" style="display:none">
+    <h3>Giáo dục thể chất</h3>
+    <div class="gdtc-note">Xếp theo ca học riêng (không dùng hệ tiết 1–8), nên hiển thị tách khỏi lưới thời khóa biểu chính.</div>
+    <div class="gdtc-rows" id="gdtcRows"></div>
+  </div>
+
+  <div class="tt-card list-card">
+    <h3 id="listTitle">Danh sách học phần</h3>
+    <div class="list-scroll">
+      <table class="subjects">
+        <thead>
+          <tr>
+            <th>Học phần</th>
+            <th>Mã HP</th>
+            <th>Tín chỉ</th>
+            <th>Giảng viên</th>
+            <th>Lịch học</th>
+            <th>Phòng</th>
+            <th>Bắt đầu</th>
+            <th>Bộ môn</th>
+          </tr>
+        </thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>Dữ liệu tổng hợp từ K66.xlsx, K67.xlsx, K68.xlsx. Các học phần "ghép lớp" được hiển thị ở mọi lớp chuyên ngành cùng học. Thời gian bắt đầu là ngày dự kiến, định dạng ngày/tháng/năm.</footer>
+</div>
+
+<script>
+const PALETTE = [
+  {c:'#2F6F65',bg:'#E4EFEC'},
+  {c:'#5B4B8A',bg:'#EAE6F3'},
+  {c:'#B0632E',bg:'#F4E7DA'},
+  {c:'#8A4B72',bg:'#F3E6EF'},
+  {c:'#3E7CA6',bg:'#E3EDF3'},
+  {c:'#7A7A2E',bg:'#EEEEDD'}
+];
+
+const KHOA_LIST = [
+  {key:'66', label:'Khóa 66', year:'K66'},
+  {key:'67', label:'Khóa 67', year:'K67'},
+  {key:'68', label:'Khóa 68', year:'K68'}
+];
+
+const GROUPS_BY_KHOA = {
+  '66': [
+    {key:'DS66', label:'Chuyên ngành: Khoa học dữ liệu (DS66)', classes:['DS66A','DS66B']},
+    {key:'AI66', label:'Chuyên ngành: Trí tuệ nhân tạo (AI66)', classes:['AI66A','AI66B']}
+  ],
+  '67': [
+    {key:'DS67', label:'Chuyên ngành: Khoa học dữ liệu (DS67)', classes:['DS67A','DS67B','DS67C']},
+    {key:'AI67', label:'Chuyên ngành: Trí tuệ nhân tạo (AI67)', classes:['AI67A','AI67B','AI67C']}
+  ],
+  '68': [
+    {key:'DS68', label:'Ngành: Khoa học dữ liệu (DS68)', classes:['DS68A','DS68B','AL68']},
+    {key:'AI68', label:'Ngành: Trí tuệ nhân tạo (AI68)', classes:['AI68A','AI68B']}
+  ]
+};
+
+const CLASS_INFO = {
+  DS66A:{ten:'Khoa học dữ liệu 66A', siSo:43, khoa:'66'},
+  DS66B:{ten:'Khoa học dữ liệu 66B', siSo:43, khoa:'66'},
+  AI66A:{ten:'Trí tuệ nhân tạo 66A', siSo:41, khoa:'66'},
+  AI66B:{ten:'Trí tuệ nhân tạo 66B', siSo:39, khoa:'66'},
+  DS67A:{ten:'Khoa học dữ liệu 67A', siSo:36, khoa:'67'},
+  DS67B:{ten:'Khoa học dữ liệu 67B', siSo:36, khoa:'67'},
+  DS67C:{ten:'Khoa học dữ liệu 67C', siSo:32, khoa:'67'},
+  AI67A:{ten:'Trí tuệ nhân tạo 67A', siSo:32, khoa:'67'},
+  AI67B:{ten:'Trí tuệ nhân tạo 67B', siSo:32, khoa:'67'},
+  AI67C:{ten:'Trí tuệ nhân tạo 67C', siSo:28, khoa:'67'},
+  DS68A:{ten:'Khoa học dữ liệu 68A', siSo:45, khoa:'68'},
+  DS68B:{ten:'Khoa học dữ liệu 68B', siSo:45, khoa:'68'},
+  AL68 :{ten:'Công nghệ logistic và quản trị chuỗi cung ứng 68', siSo:50, khoa:'68'},
+  AI68A:{ten:'Trí tuệ nhân tạo 68A', siSo:35, khoa:'68'},
+  AI68B:{ten:'Trí tuệ nhân tạo 68B', siSo:35, khoa:'68'}
+};
+
+// build a color per class, cycling the palette within each khoa's group order
+const COLORS = {};
+Object.keys(GROUPS_BY_KHOA).forEach(k=>{
+  let i=0;
+  GROUPS_BY_KHOA[k].forEach(g=>{
+    g.classes.forEach(code=>{ COLORS[code]=PALETTE[i % PALETTE.length]; i++; });
+  });
+});
+
+const DATA = [
+  {khoa:"66",lop:"DS66A",gv:"TS. Lương Văn Thiện",ma:"EP15.TOKT11113(126)_01",ten:"Học thống kê",tin:3,siso:43,tiet:"5,6",thu:6,phong:"A2-802",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66A",gv:"ThS. Trần Quang Toàn",ma:"EP15.TOKT11107(126)_01",ten:"Cơ sở dữ liệu nâng cao",tin:3,siso:43,tiet:"7,8",thu:6,phong:"A2-802",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66B",gv:"TS. Lương Văn Thiện",ma:"EP15.TOKT11113(126)_02",ten:"Học thống kê",tin:3,siso:43,tiet:"7,8",thu:6,phong:"A2-805",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66B",gv:"ThS. Lê Duy Khánh",ma:"EP15.TOKT11107(126)_02",ten:"Cơ sở dữ liệu nâng cao",tin:3,siso:43,tiet:"5,6",thu:6,phong:"A2-304",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66A",gv:"TS. Pham Thi Nguyệt Nga",ma:"EP15.NHTC1123(126)_01",ten:"Quản trị rủi ro tài chính",tin:3,siso:34,tiet:"3,4",thu:7,phong:"A2-805",bd:"08/08/2026",bomon:"V. Ngân hàng - Tài chính",lienhe:null,combined:true,combinedWith:["DS66B"]},
+  {khoa:"66",lop:"DS66B",gv:"TS. Pham Thi Nguyệt Nga",ma:"EP15.NHTC1123(126)_01",ten:"Quản trị rủi ro tài chính",tin:3,siso:34,tiet:"3,4",thu:7,phong:"A2-805",bd:"08/08/2026",bomon:"V. Ngân hàng - Tài chính",lienhe:null,combined:true,combinedWith:["DS66A"]},
+  {khoa:"66",lop:"DS66A",gv:"TS. Trần Thị Thùy Dung",ma:"EP15.NHTC1120(126)_01",ten:"Tài chính doanh nghiệp",tin:3,siso:34,tiet:"3,4",thu:2,phong:"A2-802",bd:"08/03/2026",bomon:"V. Ngân hàng - Tài chính",lienhe:"0829779888",combined:true,combinedWith:["DS66B"]},
+  {khoa:"66",lop:"DS66B",gv:"TS. Trần Thị Thùy Dung",ma:"EP15.NHTC1120(126)_01",ten:"Tài chính doanh nghiệp",tin:3,siso:34,tiet:"3,4",thu:2,phong:"A2-802",bd:"08/03/2026",bomon:"V. Ngân hàng - Tài chính",lienhe:"0829779888",combined:true,combinedWith:["DS66A"]},
+  {khoa:"66",lop:"DS66A",gv:"TS. Trần Thị Phương Mai",ma:"EP15.TMQT1145(126)_01",ten:"Quản trị tác nghiệp thương mại điện tử",tin:3,siso:50,tiet:"5,6",thu:3,phong:"A2-307",bd:"08/04/2026",bomon:"Viện TM&KTQT",lienhe:"0979683599",combined:true,combinedWith:["DS66B"]},
+  {khoa:"66",lop:"DS66B",gv:"TS. Trần Thị Phương Mai",ma:"EP15.TMQT1145(126)_01",ten:"Quản trị tác nghiệp thương mại điện tử",tin:3,siso:50,tiet:"5,6",thu:3,phong:"A2-307",bd:"08/04/2026",bomon:"Viện TM&KTQT",lienhe:"0979683599",combined:true,combinedWith:["DS66A"]},
+  {khoa:"66",lop:"DS66A",gv:"TS. Lê Việt Thủy",ma:"EP15.TMQT1154(126)_01",ten:"Thanh toán trong Thương mại điện tử",tin:3,siso:50,tiet:"3,4",thu:2,phong:"A2-306",bd:"08/03/2026",bomon:"Viện TM&KTQT",lienhe:"0906008489",combined:true,combinedWith:["DS66B"]},
+  {khoa:"66",lop:"DS66B",gv:"TS. Lê Việt Thủy",ma:"EP15.TMQT1154(126)_01",ten:"Thanh toán trong Thương mại điện tử",tin:3,siso:50,tiet:"3,4",thu:2,phong:"A2-306",bd:"08/03/2026",bomon:"Viện TM&KTQT",lienhe:"0906008489",combined:true,combinedWith:["DS66A"]},
+  {khoa:"66",lop:"DS66A",gv:"PGS. TS Hà Minh Hoàng",ma:"EP15.TOKT11103(126)_01",ten:"Các kỹ thuật và công cụ phân tích kinh doanh",tin:3,siso:33,tiet:"1,2",thu:2,phong:"A2-104",bd:"08/03/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66B",gv:"PGS. TS Hà Minh Hoàng",ma:"EP15.TOKT11103(126)_02",ten:"Các kỹ thuật và công cụ phân tích kinh doanh",tin:3,siso:39,tiet:"1,2",thu:3,phong:"A2-810",bd:"08/04/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66A",gv:"TS. Nguyễn Trung Thành*",ma:"EP15.TOKT11134(126)_01",ten:"Công nghệ Blockchain",tin:3,siso:33,tiet:"5,6",thu:4,phong:"A2-810",bd:"08/05/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:"0868 887 986",combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66B",gv:"TS. Nguyễn Trung Thành*",ma:"EP15.TOKT11134(126)_02",ten:"Công nghệ Blockchain",tin:3,siso:39,tiet:"7,8",thu:4,phong:"A2-405",bd:"08/05/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:"0869 887 986",combined:false,combinedWith:[]},
+  {khoa:"66",lop:"DS66A",gv:"ThS. Phạm Tuấn Anh",ma:"EP15.TOKT11117(126)_01",ten:"Lập trình hướng đối tượng với Java",tin:3,siso:27,tiet:"3,4",thu:5,phong:"A2-307",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:true,combinedWith:["DS66B"]},
+  {khoa:"66",lop:"DS66B",gv:"ThS. Phạm Tuấn Anh",ma:"EP15.TOKT11117(126)_01",ten:"Lập trình hướng đối tượng với Java",tin:3,siso:27,tiet:"3,4",thu:5,phong:"A2-307",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:true,combinedWith:["DS66A"]},
+  {khoa:"66",lop:"DS66A",gv:"ThS. Lê Duy Khánh",ma:"EP15.CNTT1164(126)_01",ten:"Thiết kế và Lập trình Web",tin:3,siso:27,tiet:"5,6",thu:5,phong:"A2-813",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:true,combinedWith:["DS66B"]},
+  {khoa:"66",lop:"DS66B",gv:"ThS. Lê Duy Khánh",ma:"EP15.CNTT1164(126)_01",ten:"Thiết kế và Lập trình Web",tin:3,siso:27,tiet:"5,6",thu:5,phong:"A2-813",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:true,combinedWith:["DS66A"]},
+  {khoa:"66",lop:"AI66A",gv:"ThS. Trần Quang Toàn",ma:"EP16.TIHT1104(126)_01",ten:"Kỹ nghệ phần mềm",tin:3,siso:41,tiet:"5,6",thu:3,phong:"A2-805",bd:"08/04/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66A",gv:"ThS. Lê Duy Khánh",ma:"EP16.CNTT1164(126)_01",ten:"Thiết kế và Lập trình Web",tin:3,siso:41,tiet:"7,8",thu:5,phong:"A2-805",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66A",gv:"TS. Nguyễn Thị Kim Ngân",ma:"EP16.TOKT11118(126)_01",ten:"Mạng nơ-ron học sâu",tin:3,siso:41,tiet:"5,6",thu:5,phong:"A2-802",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66A",gv:"ThS. Ngô Thái Hòa",ma:"EP16.TOKT11130(126)_01",ten:"Trực quan hóa dữ liệu",tin:3,siso:41,tiet:"3,4",thu:3,phong:"A2-306",bd:"08/04/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66A",gv:"PGS. TS Hà Minh Hoàng",ma:"EP16.TOKT11103(126)_01",ten:"Các kỹ thuật và công cụ phân tích kinh doanh",tin:3,siso:41,tiet:"1,2",thu:4,phong:"A2-805",bd:"08/05/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66A",gv:"TS. Lê Thị Hồng Thuận",ma:"LLNL1107(126)_19",ten:"Chủ nghĩa xã hội khoa học",tin:3,siso:41,tiet:"3,4",thu:4,phong:"A2-306",bd:"08/05/2026",bomon:"K.LLCT",lienhe:"0977266982",combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66B",gv:"ThS. Đàm Tiến Thành",ma:"EP16.TIHT1104(126)_02",ten:"Kỹ nghệ phần mềm",tin:3,siso:39,tiet:"7,8",thu:4,phong:"A2-305",bd:"08/05/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66B",gv:"ThS. Trần Quang Toàn",ma:"EP16.CNTT116(126)_02",ten:"Thiết kế và Lập trình Web",tin:3,siso:39,tiet:"7,8",thu:3,phong:"A2-405",bd:"08/04/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66B",gv:"TS. Nguyễn Thị Kim Ngân",ma:"EP16.TOKT11118(126)_02",ten:"Mạng nơ-ron học sâu",tin:3,siso:39,tiet:"5,6",thu:4,phong:"A2-405",bd:"08/05/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66B",gv:"ThS. Ngô Thái Hòa",ma:"EP16.TOKT11130(126)_02",ten:"Trực quan hóa dữ liệu",tin:3,siso:39,tiet:"3,4",thu:5,phong:"A2-810",bd:"08/06/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66B",gv:"PGS. TS Hà Minh Hoàng",ma:"EP16.TOKT11103(126)_02",ten:"Các kỹ thuật và công cụ phân tích kinh doanh",tin:3,siso:39,tiet:"1,2",thu:6,phong:"A2-810",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66B",gv:"TS. Nguyễn Thị Thắm",ma:"LLNL1107(126)_20",ten:"Chủ nghĩa xã hội khoa học",tin:3,siso:39,tiet:"5,6",thu:3,phong:"A2-405",bd:"08/04/2026",bomon:"K.LLCT",lienhe:"0912300971",combined:false,combinedWith:[]},
+  {khoa:"66",lop:"AI66A",gv:"TS. Phạm Thảo",ma:"EP16.CNTT1159",ten:"Quản lý dự án Công nghệ thông tin",tin:3,siso:25,tiet:"5,6",thu:6,phong:"A2-806",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:true,combinedWith:["AI66B"]},
+  {khoa:"66",lop:"AI66B",gv:"TS. Phạm Thảo",ma:"EP16.CNTT1159",ten:"Quản lý dự án Công nghệ thông tin",tin:3,siso:25,tiet:"5,6",thu:6,phong:"A2-806",bd:"08/07/2026",bomon:"K. Khoa học dữ liệu và TTNT",lienhe:null,combined:true,combinedWith:["AI66A"]},
+  {khoa:"67",lop:"DS67A",gv:"TS. Trương Như Hiếu",ma:"EP15.KHMA1101(126)_01",ten:"Kinh tế vĩ mô 1",tin:3,siso:36,tiet:"5,6",thu:2,phong:"A2-806",bd:"08/03/2026",bomon:"K. Kinh tế học",lienhe:"0364153768",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67A",gv:"TS. Trần Đức Minh",ma:"EP15.TOKT11106(126)_01",ten:"Công nghệ mạng và truyền thông",tin:3,siso:36,tiet:"7,8",thu:2,phong:"A2-305",bd:"08/03/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67A",gv:"ThS. Bùi Dương Hải",ma:"EP15.TOKT1110(126)_01",ten:"Thống kê toán",tin:3,siso:36,tiet:"5,6",thu:3,phong:"A2-806",bd:"08/04/2026",bomon:"K. Toán Kinh tế",lienhe:"0904235498",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67A",gv:"ThS. Tạ Đình Quý",ma:"EP15.TOKT11105(126)_01",ten:"Cấu trúc dữ liệu và thuật toán với Python",tin:3,siso:36,tiet:"7,8",thu:3,phong:"A2-806",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67A",gv:"TS. Trần Hùng",ma:"EP15.TOKT11123(126)_01",ten:"Phân tích dữ liệu với Python",tin:3,siso:36,tiet:"5,6",thu:4,phong:"A2-305",bd:"08/05/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67A",gv:"Lương Lê Ngọc Hải",ma:null,ten:"Bóng đá",tin:null,siso:37,tiet:"1,2",thu:6,phong:null,bd:null,bomon:"Bộ môn GDTC",lienhe:"0983361412",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67B",gv:"TS. Trương Như Hiếu",ma:"EP15.KHMA1101(126)_02",ten:"Kinh tế vĩ mô 1",tin:3,siso:36,tiet:"7,8",thu:4,phong:"A2-1003",bd:"08/06/2026",bomon:"K. Kinh tế học",lienhe:"0364153768",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67B",gv:"TS. Trần Đức Minh",ma:"EP15.TOKT11106(126)_02",ten:"Công nghệ mạng và truyền thông",tin:3,siso:36,tiet:"5,6",thu:2,phong:"A2-405",bd:"08/03/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67B",gv:"ThS. Bùi Dương Hải",ma:"EP15.TOKT1110(126)_02",ten:"Thống kê toán",tin:3,siso:36,tiet:"7,8",thu:5,phong:"A2-305",bd:"08/06/2026",bomon:"K. Toán Kinh tế",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67B",gv:"ThS. Tạ Đình Quý",ma:"EP15.TOKT11105(126)_02",ten:"Cấu trúc dữ liệu và thuật toán với Python",tin:3,siso:36,tiet:"3,4",thu:3,phong:"A2-307",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67B",gv:"TS. Vũ Đức Minh",ma:"EP15.TOKT11123(126)_02",ten:"Phân tích dữ liệu với Python",tin:3,siso:36,tiet:"1,2",thu:3,phong:"A2-305",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67B",gv:"Tống Xuân Ngọc",ma:null,ten:"Bóng bàn",tin:null,siso:37,tiet:"1,2",thu:4,phong:null,bd:null,bomon:"Bộ môn GDTC",lienhe:"0813002888",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67C",gv:"TS. Trương Như Hiếu",ma:"EP15.KHMA1101(126)_03",ten:"Kinh tế vĩ mô 1",tin:3,siso:32,tiet:"7,8",thu:2,phong:"A2-206",bd:"08/03/2026",bomon:"K. Kinh tế học",lienhe:"0364153768",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67C",gv:"ThS. Trịnh Văn Chiến",ma:"EP15.TOKT11106(126)_03",ten:"Công nghệ mạng và truyền thông",tin:3,siso:32,tiet:"5,6",thu:3,phong:"A2-810",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67C",gv:"ThS. Vũ Thị Bích Ngọc",ma:"EP15.TOKT1110(126)_03",ten:"Thống kê toán",tin:3,siso:32,tiet:"5,6",thu:2,phong:"A2-211",bd:"08/03/2026",bomon:"K. Toán Kinh tế",lienhe:"0912328288",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67C",gv:"ThS. Nguyễn Thanh Hoàng",ma:"EP15.TOKT11105(126)_03",ten:"Cấu trúc dữ liệu và thuật toán với Python",tin:3,siso:32,tiet:"7,8",thu:5,phong:"A2-206",bd:"08/06/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67C",gv:"TS. Vũ Huấn",ma:"EP15.TOKT11123(126)_03",ten:"Phân tích dữ liệu với Python",tin:3,siso:32,tiet:"3,4",thu:3,phong:"A2-810",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67C",gv:"Tống Xuân Ngọc",ma:null,ten:"Bóng bàn",tin:null,siso:33,tiet:"1,2",thu:2,phong:null,bd:null,bomon:"Bộ môn GDTC",lienhe:"0813002888",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"DS67A",gv:"TS. Nguyễn Thị Thanh Diệp",ma:"EP15.KTKE1101(126)_01",ten:"Nguyên lý kế toán",tin:3,siso:37,tiet:"5,6",thu:6,phong:"A2-305",bd:"08/07/2026",bomon:"V. Kế Toán - Kiểm toán",lienhe:"0988453399",combined:true,combinedWith:["DS67B"]},
+  {khoa:"67",lop:"DS67B",gv:"TS. Nguyễn Thị Thanh Diệp",ma:"EP15.KTKE1101(126)_01",ten:"Nguyên lý kế toán",tin:3,siso:37,tiet:"5,6",thu:6,phong:"A2-305",bd:"08/07/2026",bomon:"V. Kế Toán - Kiểm toán",lienhe:"0988453399",combined:true,combinedWith:["DS67A"]},
+  {khoa:"67",lop:"DS67B",gv:"TS. Nguyễn Thị Thanh Diệp",ma:"EP15.KTKE1101(126)_02",ten:"Nguyên lý kế toán",tin:3,siso:36,tiet:"7,8",thu:6,phong:"A2-305",bd:"08/07/2026",bomon:"V. Kế Toán - Kiểm toán",lienhe:"0988453399",combined:true,combinedWith:["DS67C"]},
+  {khoa:"67",lop:"DS67C",gv:"TS. Nguyễn Thị Thanh Diệp",ma:"EP15.KTKE1101(126)_02",ten:"Nguyên lý kế toán",tin:3,siso:36,tiet:"7,8",thu:6,phong:"A2-305",bd:"08/07/2026",bomon:"V. Kế Toán - Kiểm toán",lienhe:"0988453399",combined:true,combinedWith:["DS67B"]},
+  {khoa:"67",lop:"DS67A",gv:"PGS. TS. Phùng Thanh Quang",ma:"EP15.NHTM1121(126)_01",ten:"Ngân hàng thương mại",tin:3,siso:25,tiet:"3,4",thu:5,phong:"A2-510",bd:"08/06/2026",bomon:"V. Ngân hàng - TC",lienhe:"0904657189",combined:true,combinedWith:["DS67B", "DS67C"]},
+  {khoa:"67",lop:"DS67B",gv:"PGS. TS. Phùng Thanh Quang",ma:"EP15.NHTM1121(126)_01",ten:"Ngân hàng thương mại",tin:3,siso:25,tiet:"3,4",thu:5,phong:"A2-510",bd:"08/06/2026",bomon:"V. Ngân hàng - TC",lienhe:"0904657189",combined:true,combinedWith:["DS67A", "DS67C"]},
+  {khoa:"67",lop:"DS67C",gv:"PGS. TS. Phùng Thanh Quang",ma:"EP15.NHTM1121(126)_01",ten:"Ngân hàng thương mại",tin:3,siso:25,tiet:"3,4",thu:5,phong:"A2-510",bd:"08/06/2026",bomon:"V. Ngân hàng - TC",lienhe:"0904657189",combined:true,combinedWith:["DS67A", "DS67B"]},
+  {khoa:"67",lop:"AI67A",gv:"ThS. Phạm Đức Chung",ma:"EP16.LUCS1129(126)_01",ten:"Pháp luật đại cương",tin:3,siso:32,tiet:"7,8",thu:3,phong:"A2-206",bd:"08/04/2026",bomon:"K.LLCT",lienhe:"0941479845",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67A",gv:"TS. Nguyễn Phúc Hải",ma:"EP16.KHMI1101(126)_01",ten:"Kinh tế vĩ mô 1",tin:3,siso:32,tiet:"5,6",thu:4,phong:"A2-304",bd:"08/05/2026",bomon:"K. Kinh tế học",lienhe:"0987458005",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67A",gv:"TS. Nguyễn Trọng Nghĩa",ma:"EP16.TOKT11121(126)_01",ten:"Nhập môn Trí tuệ nhân tạo",tin:3,siso:32,tiet:"7,8",thu:2,phong:"A2-211",bd:"08/03/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67A",gv:"TS. Trần Đức Minh",ma:"EP16.TOKT11120(126)_01",ten:"Nhập môn cơ sở dữ liệu",tin:3,siso:32,tiet:"7,8",thu:4,phong:"A2-211",bd:"08/05/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67A",gv:"Vũ Đức Minh",ma:"EP16.TOKT11105(126)_01",ten:"Cấu trúc dữ liệu và giải thuật với Python",tin:3,siso:32,tiet:"3,4",thu:2,phong:"A2-409",bd:"08/03/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67A",gv:"TS. Trần Hùng",ma:"EP16.TOKT11123(126)_01",ten:"Phân tích dữ liệu với Python",tin:3,siso:32,tiet:"3,4",thu:3,phong:"A2-510",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67A",gv:"Lương Lê Ngọc Hải",ma:null,ten:"Bóng đá",tin:null,siso:32,tiet:"1,2",thu:4,phong:null,bd:"08/05/2026",bomon:"Bộ môn GDTC",lienhe:"0983361412",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"ThS. Trần Nguyên Khánh",ma:"EP16.LUCS1129(126)_02",ten:"Pháp luật đại cương",tin:3,siso:32,tiet:"7,8",thu:2,phong:"A2-209",bd:"08/03/2026",bomon:"K.LLCT",lienhe:"0941479845",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"TS. Nguyễn Phúc Hải",ma:"EP16.KHMI1101(126)_02",ten:"Kinh tế vĩ mô 1",tin:3,siso:32,tiet:"5,6",thu:2,phong:"A2-810",bd:"08/03/2026",bomon:"K. Kinh tế học",lienhe:"0987458005",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"TS. Nguyễn Trọng Nghĩa",ma:"EP16.TOKT11121(126)_02",ten:"Nhập môn Trí tuệ nhân tạo",tin:3,siso:32,tiet:"7,8",thu:4,phong:"A2-206",bd:"08/05/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"TS. Trần Hùng",ma:"EP16.TOKT11120(126)_02",ten:"Nhập môn cơ sở dữ liệu",tin:3,siso:32,tiet:"5,6",thu:3,phong:"A2-104",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"TS. Vũ Đức Minh",ma:"EP16.TOKT11105(126)_02",ten:"Cấu trúc dữ liệu và giải thuật với Python",tin:3,siso:32,tiet:"3,4",thu:3,phong:"A2-410",bd:"08/04/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"TS. Vũ Huấn",ma:"EP16.TOKT11123(126)_02",ten:"Phân tích dữ liệu với Python",tin:3,siso:32,tiet:"3,4",thu:4,phong:"A2-307",bd:"08/05/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67B",gv:"Hoàng Đình Hôm",ma:null,ten:"Bóng đá",tin:null,siso:32,tiet:"1,2",thu:2,phong:null,bd:"08/03/2026",bomon:"Bộ môn GDTC",lienhe:"0988414253",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"ThS. Phạm Đức Chung",ma:"EP16.LUCS1129(126)_03",ten:"Pháp luật đại cương",tin:3,siso:28,tiet:"7,8",thu:5,phong:"A2-204",bd:"08/06/2026",bomon:"K.LLCT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"TS. Nguyễn Phúc Hải",ma:"EP16.KHMI1101(126)_03",ten:"Kinh tế vĩ mô 1",tin:3,siso:28,tiet:"5,6",thu:6,phong:"A2-206",bd:"08/07/2026",bomon:"K. Kinh tế học",lienhe:"0987458005",combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"TS. Nguyễn Trọng Nghĩa",ma:"EP16.TOKT11121(126)_03",ten:"Nhập môn Trí tuệ nhân tạo",tin:3,siso:28,tiet:"7,8",thu:6,phong:"A2-206",bd:"08/07/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"TS. Trần Hùng",ma:"EP16.TOKT11120(126)_03",ten:"Nhập môn cơ sở dữ liệu",tin:3,siso:28,tiet:"7,8",thu:4,phong:"A2-209",bd:"08/05/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"ThS. Nguyễn Thanh Hoàng",ma:"EP16.TOKT11105(126)_03",ten:"Cấu trúc dữ liệu và giải thuật với Python",tin:3,siso:28,tiet:"5,6",thu:5,phong:"A2-104",bd:"08/06/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"TS. Trần Đức Minh",ma:"EP16.TOKT11123(126)_03",ten:"Phân tích dữ liệu với Python",tin:3,siso:28,tiet:"5,6",thu:4,phong:"A2-806",bd:"08/05/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"67",lop:"AI67C",gv:"Tống Xuân Ngọc",ma:null,ten:"Bóng bàn",tin:null,siso:28,tiet:"5,6",thu:2,phong:null,bd:"08/03/2026",bomon:"Bộ môn GDTC",lienhe:"0813002888",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68A",gv:"ThS. Đàm Tiến Thành",ma:"EP15.TOCB1101(126)_01",ten:"Đại số tuyến tính",tin:3,siso:45,tiet:"3,4",thu:5,phong:"A2-814",bd:"09/10/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68A",gv:"TS. Nguyễn Tuấn Long",ma:"EP15.TOCB1113(126)_01",ten:"Giải tích",tin:3,siso:45,tiet:"1,2",thu:5,phong:"A2-707",bd:"09/10/2026",bomon:"K.KHDL&TTNT",lienhe:"0982746235",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68A",gv:"PGS.TS. Nguyễn Trung Thành",ma:"EP15.TOKT11138(126)_01",ten:"Nhập môn Khoa học dữ liệu",tin:3,siso:45,tiet:"5,6",thu:4,phong:"A2-401",bd:"09/09/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68A",gv:"TS Nguyễn Văn Thuân",ma:"LLNL1105(126)_11",ten:"Triết học Mác - Lênin",tin:3,siso:45,tiet:"5,6",thu:6,phong:"A2-309",bd:"09/11/2026",bomon:"K.LLCT",lienhe:"0916251915",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68A",gv:"TS. Võ Thị Hồng Hạnh",ma:"LLNL1106(126)_17",ten:"Kinh tế chính trị Mác - Lê Nin",tin:2,siso:45,tiet:"7,8",thu:3,phong:"A2-306",bd:"09/08/2026",bomon:"K.LLCT",lienhe:"0985798886",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68A",gv:"Vũ Xuân Tình",ma:"GDTC1101(126)_10",ten:"Giáo dục thể chất",tin:2,siso:45,tiet:"Ca 2",thu:2,phong:"Sân thể dục",bd:"09/07/2026",bomon:"Bộ môn GDTC",lienhe:"0912081985",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68B",gv:"TS. Bùi Quốc Hoàn",ma:"EP15.TOCB1101(126)_02",ten:"Đại số tuyến tính",tin:3,siso:45,tiet:"5,6",thu:3,phong:"A2-707",bd:"09/08/2026",bomon:"K.KHDL&TTNT",lienhe:"0983386428",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68B",gv:"TS. Nguyễn Tuấn Long",ma:"EP15.TOCB1113(126)_02",ten:"Giải tích",tin:3,siso:45,tiet:"3,4",thu:2,phong:"A2-108",bd:"09/07/2026",bomon:"K.KHDL&TTNT",lienhe:"0982746235",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68B",gv:"PGS.TS. Nguyễn Trung Thành",ma:"EP15.TOKT11138(126)_02",ten:"Nhập môn Khoa học dữ liệu",tin:3,siso:45,tiet:"5,6",thu:5,phong:"A2-106",bd:"09/10/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68B",gv:"ThS Nguyễn Thị Mai Lan",ma:"LLNL1105(126)_12",ten:"Triết học Mác - Lênin",tin:3,siso:45,tiet:"3,4",thu:5,phong:"A2-801",bd:"09/10/2026",bomon:"K.LLCT",lienhe:"0988177357",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68B",gv:"TS. Võ Thị Hồng Hạnh",ma:"LLNL1106(126)_18",ten:"Kinh tế chính trị Mác - Lê Nin",tin:2,siso:45,tiet:"7,8",thu:2,phong:"A2-307",bd:"09/07/2026",bomon:"K.LLCT",lienhe:"0985798886",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"DS68B",gv:"Lưu Vũ Lương",ma:"GDTC1101(126)_11",ten:"Giáo dục thể chất",tin:2,siso:45,tiet:"Ca 4",thu:4,phong:"Sân thể dục",bd:"09/09/2026",bomon:"Bộ môn GDTC",lienhe:"0983942870",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AL68",gv:"TS. Vũ Huấn",ma:"EP20.TOCB1101(126)_01",ten:"Đại số tuyến tính",tin:3,siso:50,tiet:"1,2",thu:5,phong:"A2-516",bd:"09/10/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AL68",gv:"TS. Nguyễn Tuấn Long",ma:"EP20.TOCB1113(126)_01",ten:"Giải tích",tin:3,siso:50,tiet:"3,4",thu:6,phong:"A2-105",bd:"09/11/2026",bomon:"K.KHDL&TTNT",lienhe:"0982746235",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AL68",gv:"PGS.TS. Nguyễn Trung Thành",ma:"EP20.TOKT11138(126)_01",ten:"Nhập môn Khoa học dữ liệu",tin:3,siso:50,tiet:"7,8",thu:4,phong:"A2-303",bd:"09/09/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AL68",gv:"TS. Nguyễn Thị Lê Thư",ma:"LLNL1105(126)_13",ten:"Triết học Mác - Lênin",tin:3,siso:50,tiet:"3,4",thu:5,phong:"A2-707",bd:"09/10/2026",bomon:"K.LLCT",lienhe:"0989581386",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AL68",gv:"PGS.TS. Nguyễn Thị Thanh Hiếu",ma:"LLNL1106(126)_21",ten:"Kinh tế chính trị Mác - Lê Nin",tin:2,siso:50,tiet:"3,4",thu:3,phong:"A2-801",bd:"09/08/2026",bomon:"K.LLCT",lienhe:"0904160775",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AL68",gv:"Nguyễn Kiêm Sao",ma:"GDTC1101(126)_14",ten:"Giáo dục thể chất",tin:2,siso:50,tiet:"Ca 4",thu:3,phong:"Sân thể dục",bd:"09/08/2026",bomon:"Bộ môn GDTC",lienhe:"0326236789",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68A",gv:"ThS. Đàm Tiến Thành",ma:"EP16.TOCB1101(126)_01",ten:"Đại số tuyến tính",tin:3,siso:35,tiet:"5,6",thu:5,phong:"A2-705",bd:"09/10/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68A",gv:"PGS.TS. Nguyễn Trung Thành",ma:"EP16.TOCB1113(126)_01",ten:"Giải tích",tin:3,siso:35,tiet:"3,4",thu:3,phong:"A2-705",bd:"09/08/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68A",gv:"ThS. Trần Quang Toàn",ma:"EP16.CNTT1116(126)_01",ten:"Nhập môn Công nghệ thông tin",tin:3,siso:35,tiet:"7,8",thu:4,phong:"A2-806",bd:"09/09/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68A",gv:"TS. Lê Thị Hoa",ma:"LLNL1105(126)_14",ten:"Triết học Mác - Lênin",tin:3,siso:35,tiet:"7,8",thu:5,phong:"A2-806",bd:"09/10/2026",bomon:"K.LLCT",lienhe:"0916447919",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68A",gv:"TS. Nguyễn Văn Hậu",ma:"LLNL1106(126)_24",ten:"Kinh tế chính trị Mác - Lê Nin",tin:2,siso:35,tiet:"3,4",thu:6,phong:"A2-810",bd:"09/11/2026",bomon:"K.LLCT",lienhe:"0868169668",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68A",gv:"Lương Lê Ngọc Hải",ma:"GDTC1101(126)_12",ten:"Giáo dục thể chất",tin:2,siso:35,tiet:"Ca 2",thu:2,phong:"Sân thể dục",bd:"09/07/2026",bomon:"Bộ môn GDTC",lienhe:"0983361412",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68B",gv:"TS. Vũ Huấn",ma:"EP16.TOCB1101(126)_02",ten:"Đại số tuyến tính",tin:3,siso:35,tiet:"3,4",thu:5,phong:"A2-703",bd:"09/10/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68B",gv:"PGS.TS. Nguyễn Trung Thành",ma:"EP16.TOCB1113(126)_02",ten:"Giải tích",tin:3,siso:35,tiet:"5,6",thu:3,phong:"A2-203",bd:"09/08/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68B",gv:"ThS. Lê Duy Khánh",ma:"EP16.CNTT1116(126)_02",ten:"Nhập môn Công nghệ thông tin",tin:3,siso:35,tiet:"5,6",thu:2,phong:"A2-706",bd:"09/07/2026",bomon:"K.KHDL&TTNT",lienhe:null,combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68B",gv:"TS. Lê Thị Hoa",ma:"LLNL1105(126)_15",ten:"Triết học Mác - Lênin",tin:3,siso:35,tiet:"5,6",thu:5,phong:"A2-203",bd:"09/10/2026",bomon:"K.LLCT",lienhe:"0916447919",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68B",gv:"TS. Nguyễn Thị Hào",ma:"LLNL1106(126)_25",ten:"Kinh tế chính trị Mác - Lê Nin",tin:2,siso:35,tiet:"7,8",thu:2,phong:"A2-806",bd:"09/07/2026",bomon:"K.LLCT",lienhe:"0912325335",combined:false,combinedWith:[]},
+  {khoa:"68",lop:"AI68B",gv:"Vũ Sơn Tùng",ma:"GDTC1101(126)_13",ten:"Giáo dục thể chất",tin:2,siso:35,tiet:"Ca 3",thu:4,phong:"Sân thể dục",bd:"09/09/2026",bomon:"Bộ môn GDTC",lienhe:"0853188536",combined:false,combinedWith:[]}
+];
+
+const DAYS = [2,3,4,5,6,7];
+const DAY_LABEL = {2:'Thứ 2',3:'Thứ 3',4:'Thứ 4',5:'Thứ 5',6:'Thứ 6',7:'Thứ 7'};
+const BLOCKS = [
+  {key:'1,2',label:'Tiết 1–2',section:'Sáng'},
+  {key:'3,4',label:'Tiết 3–4',section:'Sáng'},
+  {key:'5,6',label:'Tiết 5–6',section:'Sáng'},
+  {key:'7,8',label:'Tiết 7–8',section:'Chiều'}
+];
+
+let currentKhoa = '68';
+let mode = 'class';       // 'class' | 'all' | 'gv'
+let currentClass = 'DS68A';
+let currentGV = null;
+
+function scheduled(list){ return list.filter(s=> s.tiet && BLOCKS.some(b=>b.key===s.tiet)); }
+function unscheduled(list){ return list.filter(s=> !s.tiet); }
+function nonGridSessions(list){ return list.filter(s=> s.tiet && !BLOCKS.some(b=>b.key===s.tiet)); }
+function classesOfKhoa(khoa){
+  let out = [];
+  GROUPS_BY_KHOA[khoa].forEach(g=> out = out.concat(g.classes));
+  return out;
+}
+
+// unique lecturer names, sorted by teaching load (desc) then name
+const GV_COUNTS = {};
+DATA.forEach(d=>{ if(d.gv) GV_COUNTS[d.gv] = (GV_COUNTS[d.gv]||0)+1; });
+const GV_LIST = Object.keys(GV_COUNTS).sort((a,b)=> GV_COUNTS[b]-GV_COUNTS[a] || a.localeCompare(b,'vi'));
+
+/* ---------------- global stat strip ---------------- */
+function renderStats(){
+  const totalStudents = Object.values(CLASS_INFO).reduce((a,c)=>a+c.siSo,0);
+  const totalOfferings = DATA.length;
+  const uniqueGV = new Set(DATA.filter(d=>d.gv).map(d=>d.gv)).size;
+  const stats = [
+    [KHOA_LIST.length,'khóa'],
+    [Object.keys(CLASS_INFO).length,'lớp chuyên ngành'],
+    [totalStudents,'sinh viên'],
+    [uniqueGV,'giảng viên']
+  ];
+  document.getElementById('statStrip').innerHTML = stats.map(([n,l])=>
+    `<div class="stat"><b>${n}</b><span>${l}</span></div>`).join('');
+}
+
+/* ---------------- khoa tabs ---------------- */
+function renderKhoaTabs(){
+  const tabsEl = document.getElementById('khoaTabs');
+  const sumEl = document.getElementById('khoaSummary');
+  if(mode==='gv'){ tabsEl.style.display='none'; sumEl.style.display='none'; return; }
+  tabsEl.style.display='flex';
+  sumEl.style.display='block';
+
+  tabsEl.innerHTML = KHOA_LIST.map(k=>
+    `<div class="khoa-tab ${k.key===currentKhoa?'active':''}" data-khoa="${k.key}">
+       ${k.label} <span class="yr">${k.year}</span>
+     </div>`).join('');
+  document.querySelectorAll('.khoa-tab').forEach(t=>{
+    t.addEventListener('click',()=>{
+      currentKhoa = t.dataset.khoa;
+      currentClass = GROUPS_BY_KHOA[currentKhoa][0].classes[0];
+      render();
+    });
+  });
+
+  const classes = classesOfKhoa(currentKhoa);
+  const students = classes.reduce((a,c)=>a+CLASS_INFO[c].siSo,0);
+  const offerings = DATA.filter(d=>d.khoa===currentKhoa).length;
+  sumEl.textContent =
+    `${classes.length} lớp chuyên ngành · ${students} sinh viên · ${offerings} lượt học phần`;
+}
+
+/* ---------------- GV picker ---------------- */
+function renderGvPicker(){
+  const wrap = document.getElementById('gvPickerWrap');
+  if(mode!=='gv'){ wrap.style.display='none'; return; }
+  wrap.style.display='block';
+
+  document.getElementById('gvOptions').innerHTML =
+    GV_LIST.map(n=>`<option value="${n}"></option>`).join('');
+
+  document.getElementById('gvPills').innerHTML =
+    GV_LIST.slice(0,10).map(n=>
+      `<div class="gv-pill ${n===currentGV?'active':''}" data-gv="${n}">${n}<span class="cnt">${GV_COUNTS[n]} lượt</span></div>`
+    ).join('');
+
+  document.querySelectorAll('.gv-pill').forEach(p=>{
+    p.addEventListener('click',()=>{
+      currentGV = p.dataset.gv;
+      document.getElementById('gvSearch').value = currentGV;
+      render();
+    });
+  });
+
+  const input = document.getElementById('gvSearch');
+  input.value = currentGV || '';
+  input.oninput = ()=>{
+    const v = input.value.trim();
+    if(GV_LIST.includes(v)){
+      currentGV = v;
+      render();
+    }
+  };
+}
+
+/* ---------------- class picker ---------------- */
+function renderPicker(){
+  const wrap = document.getElementById('picker');
+  if(mode!=='class'){ wrap.style.display='none'; return; }
+  wrap.style.display='flex';
+  wrap.innerHTML = GROUPS_BY_KHOA[currentKhoa].map(g=>`
+    <div class="picker-group">
+      <h2>${g.label}</h2>
+      <div class="pills">
+        ${g.classes.map(code=>{
+          const info = CLASS_INFO[code];
+          const col = COLORS[code];
+          const active = code===currentClass ? 'active' : '';
+          return `<div class="pill ${active}" data-code="${code}" style="color:${col.c}">
+                    <b style="color:${code===currentClass?col.c:'var(--ink)'}">${code}</b>
+                    <span class="n">${info.ten} · ${info.siSo} SV</span>
+                  </div>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+  wrap.querySelectorAll('.pill').forEach(p=>{
+    p.addEventListener('click',()=>{ currentClass=p.dataset.code; render(); });
+  });
+}
+
+/* ---------------- grid ---------------- */
+function chipHTML(s, showClass){
+  const col = COLORS[s.lop];
+  return `<div class="chip" style="--c:${col.c};--bg:${col.bg}">
+      ${showClass?`<div class="lop-tag">${s.lop}</div>`:''}
+      <b>${s.ten}</b>
+      <div class="sub">${[s.gv,s.phong].filter(Boolean).join(' · ')}</div>
+      ${s.combined?`<div class="ghep">Ghép cùng ${s.combinedWith.join(', ')}</div>`:''}
+    </div>`;
+}
+
+function renderGrid(){
+  let list, title, meta, showClass;
+  if(mode==='class'){
+    list = DATA.filter(d=>d.khoa===currentKhoa && d.lop===currentClass);
+    const info = CLASS_INFO[currentClass];
+    title = `${currentClass} — ${info.ten}`;
+    meta = `${info.siSo} sinh viên`;
+    showClass = false;
+  } else if(mode==='all'){
+    const classes = classesOfKhoa(currentKhoa);
+    list = DATA.filter(d=>d.khoa===currentKhoa);
+    title = `Toàn khóa ${currentKhoa} — tất cả các lớp`;
+    meta = `${classes.length} lớp chuyên ngành`;
+    showClass = true;
+  } else {
+    list = currentGV ? DATA.filter(d=>d.gv===currentGV) : [];
+    const nKlass = new Set(list.map(d=>d.lop)).size;
+    title = currentGV || 'Chọn một giảng viên';
+    meta = currentGV ? `${list.length} lượt dạy · ${nKlass} lớp` : '';
+    showClass = true;
+  }
+  document.getElementById('ttTitle').textContent = title;
+  document.getElementById('ttMeta').textContent = meta;
+
+  const sched = scheduled(list);
+
+  // conflict detection (mainly meaningful in GV view: same day+block taught twice)
+  const banner = document.getElementById('conflictBanner');
+  if(mode==='gv' && currentGV){
+    const bySlot = {};
+    sched.forEach(s=>{
+      const k = s.thu+'|'+s.tiet;
+      (bySlot[k] = bySlot[k]||[]).push(s);
+    });
+    const conflicts = Object.entries(bySlot).filter(([k,v])=>v.length>1);
+    banner.innerHTML = conflicts.length
+      ? conflicts.map(([k,v])=>{
+          const [thu,tiet] = k.split('|');
+          return `<div class="conflict-banner">⚠ Trùng lịch ${DAY_LABEL[thu]}, tiết ${tiet}: ${v.map(s=>s.lop+' — '+s.ten).join('; ')}</div>`;
+        }).join('')
+      : '';
+  } else {
+    banner.innerHTML = '';
+  }
+
+  let html = `<div class="hcell corner"></div>`;
+  DAYS.forEach(d=> html += `<div class="hcell">${DAY_LABEL[d]}</div>`);
+
+  BLOCKS.forEach(b=>{
+    html += `<div class="period-cell">${b.label}</div>`;
+    DAYS.forEach(d=>{
+      const here = sched.filter(s=>s.thu===d && s.tiet===b.key);
+      html += `<div class="slot">${here.map(s=>chipHTML(s, showClass)).join('')}</div>`;
+    });
+  });
+
+  document.getElementById('grid').innerHTML = html;
+
+  const un = unscheduled(list);
+  const unwrap = document.getElementById('unsched');
+  unwrap.innerHTML = un.length
+    ? 'Chưa có thông tin lịch: ' + un.map(s=>
+        `<span class="tag">${showClass?s.lop+' · ':''}${s.ten}</span>`).join('')
+    : '';
+
+  renderGdtc(list, showClass);
+}
+
+/* ---------------- GDTC / non-grid sessions (e.g. "Ca 1-4") ---------------- */
+function renderGdtc(list, showClass){
+  const card = document.getElementById('gdtcCard');
+  const rows = nonGridSessions(list);
+  if(!rows.length){ card.style.display='none'; return; }
+  card.style.display='block';
+  document.getElementById('gdtcRows').innerHTML = rows.map(s=>{
+    const col = COLORS[s.lop] || PALETTE[0];
+    return `<div class="gdtc-row" style="--c:${col.c};--bg:${col.bg}">
+        <div class="top">
+          <span class="ten">${s.ten}${showClass?` <span class="lop-tag">· ${s.lop}</span>`:''}</span>
+        </div>
+        <div class="details">
+          <b>${DAY_LABEL[s.thu] ?? '—'}</b>, ${s.tiet} · ${s.phong ?? 'chưa rõ địa điểm'}
+          ${s.gv? ' · GV: '+s.gv : ''}${s.tin? ' · '+s.tin+' TC' : ''}${s.bd? ' · bắt đầu '+s.bd : ''}
+        </div>
+        ${s.lienhe?`<div class="contact">Liên hệ: ${s.lienhe}</div>`:''}
+      </div>`;
+  }).join('');
+}
+
+/* ---------------- subject list ---------------- */
+function renderList(){
+  let list, showClass;
+  if(mode==='class'){
+    list = DATA.filter(d=>d.khoa===currentKhoa && d.lop===currentClass);
+    showClass = false;
+    document.getElementById('listTitle').textContent = `Danh sách học phần — ${currentClass}`;
+  } else if(mode==='all'){
+    list = DATA.filter(d=>d.khoa===currentKhoa);
+    showClass = true;
+    document.getElementById('listTitle').textContent = `Danh sách học phần — toàn khóa ${currentKhoa}`;
+  } else {
+    list = currentGV ? DATA.filter(d=>d.gv===currentGV) : [];
+    showClass = true;
+    document.getElementById('listTitle').textContent = currentGV
+      ? `Lịch dạy cả kỳ — ${currentGV}` : `Lịch dạy cả kỳ`;
+  }
+
+  document.getElementById('listBody').innerHTML = list.map(s=>`
+    <tr>
+      <td>${showClass?`<span class="code">${s.lop}</span><br>`:''}${s.ten}
+        ${s.combined?`<span class="ghep-note">Ghép cùng ${s.combinedWith.join(', ')}</span>`:''}</td>
+      <td class="code">${s.ma}</td>
+      <td class="credit">${s.tin ?? '—'}</td>
+      <td>${s.gv ?? '—'}${s.lienhe?`<br><span class="ghep-note">Liên hệ: ${s.lienhe}</span>`:''}</td>
+      <td class="code">${s.tiet ? (BLOCKS.some(b=>b.key===s.tiet) ? DAY_LABEL[s.thu]+', tiết '+s.tiet : DAY_LABEL[s.thu]+', '+s.tiet) : 'Chưa xếp'}</td>
+      <td class="code">${s.phong ?? '—'}</td>
+      <td class="code">${s.bd ?? '—'}</td>
+      <td>${s.bomon ?? '—'}</td>
+    </tr>`).join('');
+}
+
+function render(){
+  renderKhoaTabs();
+  renderPicker();
+  renderGvPicker();
+  renderGrid();
+  renderList();
+}
+
+function setMode(newMode){
+  mode = newMode;
+  document.getElementById('btnByClass').classList.toggle('active', mode==='class');
+  document.getElementById('btnAll').classList.toggle('active', mode==='all');
+  document.getElementById('btnByGV').classList.toggle('active', mode==='gv');
+  render();
+}
+
+document.getElementById('btnByClass').addEventListener('click',()=>setMode('class'));
+document.getElementById('btnAll').addEventListener('click',()=>setMode('all'));
+document.getElementById('btnByGV').addEventListener('click',()=>{
+  if(!currentGV) currentGV = GV_LIST[0];
+  setMode('gv');
+});
+
+renderStats();
+render();
+</script>
+</body>
+</html>
